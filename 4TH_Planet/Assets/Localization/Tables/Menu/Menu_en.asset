@@ -105,5 +105,29 @@ MonoBehaviour:
     m_Localized: Crouch to pass through smaller passageways
     m_Metadata:
       m_Items: []
+  - m_Id: 1817704256299008
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1817811521429504
+    m_Localized: Sound Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1818011065442304
+    m_Localized: Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1818094313988096
+    m_Localized: FullScreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1818257287864320
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1818343887659008
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
