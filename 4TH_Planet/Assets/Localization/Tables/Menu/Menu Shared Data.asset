@@ -27,6 +27,38 @@ MonoBehaviour:
     m_Key: EXIT
     m_Metadata:
       m_Items: []
+  - m_Id: 1810554050109440
+    m_Key: Credits_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811425307713536
+    m_Key: Akihito
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811570996862976
+    m_Key: Luiz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811704270872576
+    m_Key: Arthur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811928984903680
+    m_Key: Catarina
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812110715707392
+    m_Key: "Ross\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812285534298112
+    m_Key: Nubya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812439041630208
+    m_Key: Vinicius
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

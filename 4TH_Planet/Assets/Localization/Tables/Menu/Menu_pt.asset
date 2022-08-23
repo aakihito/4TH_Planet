@@ -30,5 +30,49 @@ MonoBehaviour:
     m_Localized: Sair
     m_Metadata:
       m_Items: []
+  - m_Id: 1810554050109440
+    m_Localized: Oni Productions e uma empresa formada por estudantes de desenvolvimento
+      de jogos, com um grupo pequeno de pessoas que buscam criar aquilo que sempre
+      fez parte de suas vidas. Nosso objetivo e fornecer uma experiencia agradavel
+      ao jogador, criar algo que seja nao de empresa para consumidor, mas de jogador
+      para jogador.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811425307713536
+    m_Localized: 'Programador
+
+      Game Designer'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811570996862976
+    m_Localized: Progamador
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811704270872576
+    m_Localized: Sound Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811928984903680
+    m_Localized: 'Artista 2D
+
+      Animadora'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812110715707392
+    m_Localized: 'Artista 2D
+
+      Game Designer'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812285534298112
+    m_Localized: 'Artista 2D
+
+      Animadora'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812439041630208
+    m_Localized: Game Designer
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

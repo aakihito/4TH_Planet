@@ -30,5 +30,50 @@ MonoBehaviour:
     m_Localized: Quit
     m_Metadata:
       m_Items: []
+  - m_Id: 1810554050109440
+    m_Localized: 'Oni Productions is made by a group of students who are currently
+      studying game development. We desire to create what has always been part of
+      our lives. Our main objective is to make an enjoyable experience for the player,
+      to create something from a player to another player.
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811425307713536
+    m_Localized: 'Programmer
+
+      Game Designer'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811570996862976
+    m_Localized: Programmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811704270872576
+    m_Localized: Sound Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1811928984903680
+    m_Localized: '2D Artist
+
+      Animator'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812110715707392
+    m_Localized: '2D Artist
+
+      Game Designer'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812285534298112
+    m_Localized: '2D Artist
+
+      Animator'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1812439041630208
+    m_Localized: Game Designer
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
