@@ -75,5 +75,35 @@ MonoBehaviour:
     m_Localized: Game Designer
     m_Metadata:
       m_Items: []
+  - m_Id: 1813772222128128
+    m_Localized: Hit your enemies as hard as you can using mouse left click.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814047590768640
+    m_Localized: Jump to avoid enemies or achieve greater heights using W, Space,
+      or Up Arrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814274150293504
+    m_Localized: Dash out of danger and pass through obstacles using Shift
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814460238979072
+    m_Localized: Walk and explore the world using A and D or Left Arrow and Right
+      Arrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814921272680448
+    m_Localized: Use S to fall faster while in the air
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1815384147681280
+    m_Localized: Interact with the environment or with NPCs using E
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1816193879040000
+    m_Localized: Crouch to pass through smaller passageways
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

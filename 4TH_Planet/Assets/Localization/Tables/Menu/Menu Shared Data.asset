@@ -59,6 +59,34 @@ MonoBehaviour:
     m_Key: Vinicius
     m_Metadata:
       m_Items: []
+  - m_Id: 1813772222128128
+    m_Key: SHOOT_FUNCTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814047590768640
+    m_Key: JUMP_FUNCITON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814274150293504
+    m_Key: RUN_FUNCTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814460238979072
+    m_Key: WALK_FUNCTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814921272680448
+    m_Key: SNAKE_FUNCTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1815384147681280
+    m_Key: INTERACTIVE_FUNCTIO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1816193879040000
+    m_Key: SNACKE_FUNCTION2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

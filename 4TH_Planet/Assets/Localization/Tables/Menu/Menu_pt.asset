@@ -74,5 +74,46 @@ MonoBehaviour:
     m_Localized: Game Designer
     m_Metadata:
       m_Items: []
+  - m_Id: 1813772222128128
+    m_Localized: 'Atinja seus inimigos o mais forte que voce puder pressionando o
+      botao Esquerdo do Mouse.
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814047590768640
+    m_Localized: Pule e desvie dos inimigos pressionando W, Espaco ou a seta para
+      cima.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814274150293504
+    m_Localized: 'Corra dos seus inimigos e atravesse obstaculos de maneiras mais
+      rapidas pressionando Shift
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814460238979072
+    m_Localized: Ande e explore o mundo pressionando A e D ou Seta esquerda e Seta
+      direita.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1814921272680448
+    m_Localized: Caia de maneira mais rapida em seus pulos pressionando S ou Seta
+      para  Baixo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1815384147681280
+    m_Localized: 'Interaja com o cenario e com os personagens pressionando E
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1816193879040000
+    m_Localized: 'Agache e se esgueire por lugares dificeis pressionando CTRL.
+
+'
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
