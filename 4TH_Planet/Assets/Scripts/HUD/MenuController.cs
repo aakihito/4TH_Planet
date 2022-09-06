@@ -50,4 +50,9 @@ public class MenuController : MonoBehaviour
         GameManager.Instance.SceneLoadManager.LoadScene("Lvl_01");
     }
 
+    public void SaveConfig()
+    {
+        SaveSystem.Save();
+    }
+
 }
