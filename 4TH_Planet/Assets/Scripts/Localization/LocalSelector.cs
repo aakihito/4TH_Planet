@@ -7,6 +7,9 @@ public class LocalSelector : MonoBehaviour
 {
     public void ChangeLanguage()
     {
+        //StartCoroutine(SetNewLocal(newLanguageID));
+
+
         if(LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[0])
         {
             StartCoroutine(SetNewLocal((int)Language.PT));
