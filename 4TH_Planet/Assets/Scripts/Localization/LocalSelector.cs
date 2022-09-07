@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
-
 public class LocalSelector : MonoBehaviour
 {
     public void ChangeLanguage()
