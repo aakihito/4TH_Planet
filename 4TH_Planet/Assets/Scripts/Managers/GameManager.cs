@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Managers")]    
     [SerializeField] private SceneLoadManager _sceneLoadManager;
+    [SerializeField] private InputHandler _inputManager;
     
     //Criando a referencia(a variavel pública e estática) global da classe
 

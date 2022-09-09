@@ -20,9 +20,9 @@ public class @GameControls : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Walk"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""4e1d674e-37d1-45a3-b0a4-50fe5a0aa2a8"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -32,7 +32,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""bf746d01-2b49-4736-8de1-43c41a500f9d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""JumpUp"",
@@ -40,7 +40,23 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""dbd3a2b3-276a-49ea-adb9-101d4dc5b5b4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""701fa58b-dd12-4a9e-bbf1-76682825b9ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""CrouchUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f70bcc29-98c8-48d7-9986-6a71f504a06f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
                 },
                 {
                     ""name"": ""Dash"",
@@ -51,9 +67,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""Sneak"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
-                    ""id"": ""cb7fb3a3-fb18-4088-b222-841807b43a2d"",
+                    ""id"": ""fbce1f08-bd49-425f-b080-982f6b6f5f6c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
@@ -63,7 +79,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""WASD"",
                     ""id"": ""fcae3303-f764-44e6-a0fc-c2bacb0e2347"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -72,8 +88,30 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""83eb6bd3-363a-48d8-be30-bd1b4bca90ce"",
+                    ""name"": ""Up"",
+                    ""id"": ""e32e1b7d-0549-4d6f-b706-142100590ee5"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down"",
+                    ""id"": ""b5be274f-e8b7-4cba-8101-170cd0c0dae6"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""7a7dc039-d550-4976-80b1-6649d5fbddfa"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -83,8 +121,8 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""b45051b9-78a0-4e24-835b-52ea355354bf"",
+                    ""name"": ""Right"",
+                    ""id"": ""c797806a-8a66-4892-b5eb-4e60c6b8702c"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -94,235 +132,70 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrows"",
-                    ""id"": ""821c6ae5-87a7-4579-8315-96a40ca5fa80"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Walk"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""c4f2b02a-d444-416f-b6d9-cf9c0ee5ab6a"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Walk"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""8c939d23-b84f-4141-9326-a6d6fa9a119f"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Walk"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Space"",
-                    ""id"": ""55a11de9-4ff1-4de1-a337-1705a72b5751"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""0e57e11c-8328-4a38-8db6-f0af6db72deb"",
+                    ""name"": """",
+                    ""id"": ""d3f97ff7-a6ef-4a35-9c90-5480eea38862"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""2d3f79af-6f2f-48b3-94cf-df1591af1191"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""4e27b164-f567-4c54-8b6f-39ff26d3105f"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""5b9c6b00-237e-4589-8899-0346b4e27d92"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""0e8b3e5d-7140-41f3-bfaf-ec2b70d2271f"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""865099f7-9f42-44ce-960b-64851e28d117"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""495308a3-d680-4529-86da-589eb13ba5a8"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""f6df9dbd-55fc-460d-a141-46a418c4ae23"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""6cc378bc-e251-494c-a291-5f0a9a53e49a"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Space"",
-                    ""id"": ""86510632-2895-4fca-a4c6-98782a7f82b4"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""55dce2ae-e6a9-4ffb-8221-eb60808048a5"",
+                    ""name"": """",
+                    ""id"": ""6cbc19e5-f4d0-443a-b472-439513093256"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""JumpUp"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Shift"",
-                    ""id"": ""481d5a37-19f7-4962-ac7b-72dd85788cb0"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""c4ef051c-b198-4bb3-a68d-27653b5e84b8"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""name"": """",
+                    ""id"": ""10409b46-7853-449d-b1ef-b034942a3b8b"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Control"",
-                    ""id"": ""ffb5897c-194c-4656-9f5f-e1d36685225b"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sneak"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""a0f19434-f99a-4c2a-bd6c-222dbecc85f1"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""name"": """",
+                    ""id"": ""1aa1f753-dbb8-4772-bbca-8eb0aa2a996d"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Sneak"",
+                    ""action"": ""CrouchUp"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Letters"",
-                    ""id"": ""ebb5a33a-1b02-4a73-9770-8c6d4b13cecc"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sneak"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""0ca2a018-b90e-47d2-899b-3f70b7afa5b7"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""name"": """",
+                    ""id"": ""ffbb726b-04a1-4174-8e6a-93a2d54823d7"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Sneak"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""635b75a1-86b0-4946-a7bd-ef3cf59b8805"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -334,8 +207,10 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_JumpUp = m_Player.FindAction("JumpUp", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_CrouchUp = m_Player.FindAction("CrouchUp", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_Sneak = m_Player.FindAction("Sneak", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -388,8 +263,10 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Walk;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_JumpUp;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_CrouchUp;
     private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_Sneak;
+    private readonly InputAction m_Player_Attack;
     public struct PlayerActions
     {
         private @GameControls m_Wrapper;
@@ -397,8 +274,10 @@ public class @GameControls : IInputActionCollection, IDisposable
         public InputAction @Walk => m_Wrapper.m_Player_Walk;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @JumpUp => m_Wrapper.m_Player_JumpUp;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @CrouchUp => m_Wrapper.m_Player_CrouchUp;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @Sneak => m_Wrapper.m_Player_Sneak;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -417,12 +296,18 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @JumpUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
                 @JumpUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
                 @JumpUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
+                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @CrouchUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
+                @CrouchUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
+                @CrouchUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Sneak.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSneak;
-                @Sneak.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSneak;
-                @Sneak.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSneak;
+                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -436,12 +321,18 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @JumpUp.started += instance.OnJumpUp;
                 @JumpUp.performed += instance.OnJumpUp;
                 @JumpUp.canceled += instance.OnJumpUp;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @CrouchUp.started += instance.OnCrouchUp;
+                @CrouchUp.performed += instance.OnCrouchUp;
+                @CrouchUp.canceled += instance.OnCrouchUp;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
-                @Sneak.started += instance.OnSneak;
-                @Sneak.performed += instance.OnSneak;
-                @Sneak.canceled += instance.OnSneak;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -451,7 +342,9 @@ public class @GameControls : IInputActionCollection, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnJumpUp(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnCrouchUp(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnSneak(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

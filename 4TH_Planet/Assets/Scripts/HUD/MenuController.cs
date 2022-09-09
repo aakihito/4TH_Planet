@@ -47,7 +47,7 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
-        GameManager.Instance.SceneLoadManager.LoadScene("Lvl_01");
+        GameManager.Instance.SceneLoadManager.LoadScene("Tutorial");
     }
 
     public void SaveConfig()

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5948e0ed8e05314469ea1ea4cc526058, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: 
+  gravityScale: 1.6
+  fallGravityMult: 2.2
+  quickFallGravityMult: 1.35
+  dragAmount: 0.22
+  frictionAmount: 0.22
+  coyoteTime: 0.16
+  runMaxSpeed: 7
+  runAccel: 11
+  runDeccel: 14
+  accelInAir: 0.65
+  deccelInAir: 0.65
+  accelPower: 1.1
+  stopPower: 1.3
+  turnPower: 1.15
+  crouchMaxSpeed: 2
+  jumpForce: 13
+  jumpCutMultiplier: 0.06
+  jumpBufferTime: 0.013
+  slideSpeed: 0
+  slideAccel: 0
+  slidePower: 1.3
+  dashAmount: 1
+  dashSpeed: 25
+  dashAttackTime: 0.15
+  dashAttackDragAmount: 0.24
+  dashEndTime: 0.2
+  dashUpEndMult: 0.6
+  dashEndRunLerp: 0.3
+  dashBufferTime: 0.3
+  dashSleepTime: 0.1
+  dashRefillTime: 0.1
+  doKeepRunMomentum: 1
