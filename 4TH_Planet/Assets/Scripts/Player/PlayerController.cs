@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
 
     #region COMPONENTS
 
-    private Rigidbody2D _rb;
-    private Animator _anim;
+	[Header("COMPONENTS")]
+    [SerializeField] private Rigidbody2D _rb;
+  	[SerializeField]  private Animator _anim;
 
     #endregion
 
@@ -106,7 +107,14 @@ public class PlayerController : MonoBehaviour
       if (InputHandler.instance.MoveInput.x != 0)
 			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);
 
-		if (!IsDashing && !IsJumping)
+
+	
+      if (InputHandler.instance.MoveInput == Vector2.zero)
+		{
+			_anim.SetBool("Run",false);
+		}		
+
+		if (!IsDashing && !IsJumping && !IsCrouching)
 		{
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) 
@@ -139,6 +147,7 @@ public class PlayerController : MonoBehaviour
 		if (IsJumping && _rb.velocity.y < 0)
 		{
 			IsJumping = false;
+			_anim.SetBool("Jump",false);
 			//Debug.Break();
 		}
 
@@ -148,6 +157,7 @@ public class PlayerController : MonoBehaviour
 			if (CanJump() && LastPressedJumpTime > 0)
 			{
 				IsJumping = true;
+				_anim.SetBool("Jump",true);
 				Jump();
 			}
 		}
@@ -156,7 +166,7 @@ public class PlayerController : MonoBehaviour
 		{
 
 			Sleep(_data.dashSleepTime); 
-
+			_anim.SetBool("Dash",true);
 			//If not direction pressed, dash forward
 			if (InputHandler.instance.MoveInput != Vector2.zero)
 				_lastDashDir = InputHandler.instance.MoveInput;
@@ -200,6 +210,7 @@ public class PlayerController : MonoBehaviour
         if (!IsDashing)
 		{
 			Run(1);
+			_anim.SetBool("Run",true);
 		}
 		else if (_dashAttacking)
 		{
@@ -384,7 +395,7 @@ public class PlayerController : MonoBehaviour
 		
 		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
-		_rb.AddForce(movement * Vector2.up);
+		_rb.AddForce(-movement * Vector2.up);
 	}
 
 	private IEnumerator StartDash(Vector2 dir)
@@ -419,6 +430,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		IsDashing = false;
+		_anim.SetBool("Dash",false);
 	}
 
 private IEnumerator RefillDash(int amount)

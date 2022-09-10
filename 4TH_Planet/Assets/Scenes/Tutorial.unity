@@ -268,6 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: b4ccc5fb50cb0a3418b086db03a43a0f, type: 2}
+  _rb: {fileID: 80054140}
+  _anim: {fileID: 80054138}
   _collider: {fileID: 80054135}
   _groundCheckPoint: {fileID: 1308180540}
   _groundCheckSize: {x: 0.5, y: 0.06}
@@ -311,7 +313,7 @@ GameObject:
   - component: {fileID: 606730764}
   - component: {fileID: 606730763}
   m_Layer: 0
-  m_Name: INPUT MANAGER
+  m_Name: Tutorial_StartInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
