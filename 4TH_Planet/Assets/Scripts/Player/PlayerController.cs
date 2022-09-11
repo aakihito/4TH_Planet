@@ -6,21 +6,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerData _data;
 
     #region COMPONENTS
-
-	[Header("COMPONENTS")]
-    [SerializeField] private Rigidbody2D _rb;
-  	[SerializeField]  private Animator _anim;
+    public Rigidbody2D _rb {get; private set;}
 
     #endregion
 
     #region STATES
 
-    private bool IsFacingRight;
-    private bool IsJumping;
-    private bool IsDashing;
-    private bool IsAttacking;
-    private bool IsSliding;
-    private bool IsCrouching;
+    public bool IsFacingRight {get; private set; }
+    public bool IsJumping {get; private set; }
+    public bool IsDashing {get; private set; }
+    public bool IsAttacking {get; private set; }
+    public bool IsSliding {get; private set; }
+    public bool IsCrouching {get; private set; }
+	public  bool IsGrounded {get; private set;}
 
     private float LastOnGroundTime;
     private float LastOnWallTime;
@@ -45,6 +43,17 @@ public class PlayerController : MonoBehaviour
     private bool _dashRefilling;
 
     #endregion
+
+	#region RUN
+
+	public float targetSpeed {get; private set;}
+
+	#endregion
+
+	#region  JUMP
+	public float force {get; private set;}
+
+	#endregion
 
     [Header("Crouch")]
 
@@ -105,14 +114,7 @@ public class PlayerController : MonoBehaviour
         LastPressedAttackTime -= Time.deltaTime;
 
       if (InputHandler.instance.MoveInput.x != 0)
-			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);
-
-
-	
-      if (InputHandler.instance.MoveInput == Vector2.zero)
-		{
-			_anim.SetBool("Run",false);
-		}		
+			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);		
 
 		if (!IsDashing && !IsJumping && !IsCrouching)
 		{
@@ -147,7 +149,6 @@ public class PlayerController : MonoBehaviour
 		if (IsJumping && _rb.velocity.y < 0)
 		{
 			IsJumping = false;
-			_anim.SetBool("Jump",false);
 			//Debug.Break();
 		}
 
@@ -157,7 +158,6 @@ public class PlayerController : MonoBehaviour
 			if (CanJump() && LastPressedJumpTime > 0)
 			{
 				IsJumping = true;
-				_anim.SetBool("Jump",true);
 				Jump();
 			}
 		}
@@ -166,7 +166,6 @@ public class PlayerController : MonoBehaviour
 		{
 
 			Sleep(_data.dashSleepTime); 
-			_anim.SetBool("Dash",true);
 			//If not direction pressed, dash forward
 			if (InputHandler.instance.MoveInput != Vector2.zero)
 				_lastDashDir = InputHandler.instance.MoveInput;
@@ -193,6 +192,7 @@ public class PlayerController : MonoBehaviour
 			Crouch();
 			IsDashing = false;
 			IsJumping = false;
+			IsSliding = false;
 		}
 		else if((Physics2D.OverlapBox(_roofCheckPoint.position, _roofCheckSize, 0, _groundLayer)))
 		{
@@ -200,6 +200,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
+			IsCrouching = false;
 			_collider.size = new Vector2(_collider.size.x, 1.4f);
 			_collider.offset = new Vector2(_collider.offset.x, 0f);
 		}
@@ -210,7 +211,6 @@ public class PlayerController : MonoBehaviour
         if (!IsDashing)
 		{
 			Run(1);
-			_anim.SetBool("Run",true);
 		}
 		else if (_dashAttacking)
 		{
@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
 	private void Run(float lerpAmount)
 	{
 		
-		float targetSpeed = InputHandler.instance.MoveInput.x * _data.runMaxSpeed;
+		targetSpeed = InputHandler.instance.MoveInput.x * _data.runMaxSpeed;
 		float speedDif = targetSpeed - _rb.velocity.x;
 
 		float accelRate;
@@ -305,10 +305,16 @@ public class PlayerController : MonoBehaviour
 		#region Acceleration Rate
 
 		if (LastOnGroundTime > 0)
+		{
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccel : _data.runDeccel;
+			IsGrounded = true;
+		}
 		else
+		{
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccel * _data.accelInAir : _data.runDeccel * _data.deccelInAir;
-		
+			IsGrounded = false;	
+		}
+
 		if (((_rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (_rb.velocity.x < targetSpeed && targetSpeed < -0.01f)) && _data.doKeepRunMomentum)
 		{
 			accelRate = 0; 
@@ -361,6 +367,7 @@ public class PlayerController : MonoBehaviour
 	private void Crouch()
 	{
 		LastOnGroundTime = 0;
+		IsGrounded = true;
 
 		if(IsCrouching)
 		{
@@ -373,9 +380,10 @@ public class PlayerController : MonoBehaviour
 	{
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
+		IsGrounded = false;
 
 		#region Perform Jump
-		float force = _data.jumpForce;
+		force = _data.jumpForce;
 		if (_rb.velocity.y < 0)
 			force -= _rb.velocity.y;
 
@@ -389,19 +397,18 @@ public class PlayerController : MonoBehaviour
 
 	private void Slide()
 	{
-	
-		float speedDif = _data.slideSpeed - _rb.velocity.y;	
-		float movement = speedDif * _data.slideAccel;
-		
-		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+		float targetSpeed = 0;
+		float speedDif = targetSpeed - _rb.velocity.y;
 
-		_rb.AddForce(-movement * Vector2.up);
+		float movement = Mathf.Pow(Mathf.Abs(speedDif) * _data.slideAccel, _data.slidePower) * Mathf.Sign(speedDif);
+		_rb.AddForce(movement * Vector2.up, ForceMode2D.Force);
 	}
 
 	private IEnumerator StartDash(Vector2 dir)
 	{
 
 		LastOnGroundTime = 0;
+		IsGrounded = false;
 		LastPressedDashTime = 0;
 
 		float startTime = Time.time;
@@ -430,7 +437,6 @@ public class PlayerController : MonoBehaviour
 		}
 
 		IsDashing = false;
-		_anim.SetBool("Dash",false);
 	}
 
 private IEnumerator RefillDash(int amount)

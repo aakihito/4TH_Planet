@@ -30,9 +30,9 @@ MonoBehaviour:
   jumpForce: 13
   jumpCutMultiplier: 0.06
   jumpBufferTime: 0.013
-  slideSpeed: 0
-  slideAccel: 0
-  slidePower: 1.3
+  slideSpeed: 2
+  slideAccel: 2
+  slidePower: 2
   dashAmount: 1
   dashSpeed: 25
   dashAttackTime: 0.15
