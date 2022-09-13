@@ -11,13 +11,12 @@ public class HudController : MonoBehaviour
 
     [Header("LIFE")]
     public Image faceCharacter;
-    //public Image hearts;
+    public Image hearts;
     public GameObject faceDamage;
     public Sprite[] sprites = new Sprite[3];
 
     public int life = 6;
-    //public Sprite[] heartsInHud = new Sprite[7];
-    public GameObject[] heartsInHud = new GameObject[7];
+    public Sprite[] heartsInHud = new Sprite[7];
 
     #endregion
 
@@ -40,7 +39,7 @@ public class HudController : MonoBehaviour
     {
         faceCharacter = faceCharacter.GetComponent<Image>();   
         _playerControl = PlayerController.playerControl; 
-        //hearts = hearts.GetComponent<Image>();
+        hearts = hearts.GetComponent<Image>();
     }
 
     public void LosingLife()
@@ -75,40 +74,40 @@ public class HudController : MonoBehaviour
             case 6:
                 Damage();
                 faceCharacter.sprite = sprites[3];
-                //hearts.sprite = heartsInHud[6];
+                hearts.sprite = heartsInHud[6];
             break;
 
             case 5:
                 Damage();
-                //hearts.sprite = heartsInHud[5];
+                hearts.sprite = heartsInHud[5];
             break;
 
             case 4:
                 Damage();
                 faceCharacter.sprite = sprites[2];
-                //hearts.sprite = heartsInHud[4];
+                hearts.sprite = heartsInHud[4];
             break;
 
             case 3:
                 Damage();
-                //hearts.sprite = heartsInHud[3];
+                hearts.sprite = heartsInHud[3];
             break;
             
             case 2:
                 Damage();
                 faceCharacter.sprite = sprites[1];
-                //hearts.sprite = heartsInHud[2];
+                hearts.sprite = heartsInHud[2];
             break;
 
             case 1:
                 Damage();
-                //hearts.sprite = heartsInHud[1];
+                hearts.sprite = heartsInHud[1];
             break;
 
             default:
                 Damage();
                 faceCharacter.sprite = sprites[0];
-                //hearts.sprite = heartsInHud[0];
+                hearts.sprite = heartsInHud[0];
                 _playerControl.PlayerDeath();
                 
             break;

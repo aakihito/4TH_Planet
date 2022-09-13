@@ -219,8 +219,11 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			IsCrouching = false;
-			_collider.size = new Vector2(_collider.size.x, 1.4f);
+			_collider.size = new Vector2(_collider.size.x, 0.74f);
 			_collider.offset = new Vector2(_collider.offset.x, 0f);
+			
+			PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.74f);
+			PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, 0f);
 		}
 }
 
@@ -389,8 +392,10 @@ public class PlayerController : MonoBehaviour
 
 		if(IsCrouching)
 		{
-			_collider.size = new Vector2(_collider.size.x, 0.70f);
-			_collider.offset = new Vector2(_collider.offset.x, -0.36f);
+			_collider.size = new Vector2(_collider.size.x, 0.26f);
+			_collider.offset = new Vector2(_collider.offset.x, -0.26f);
+			PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.26f);
+			PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, -0.26f);
 		}
 	}
 
