@@ -3,10 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Cristal
-  - Dangerous
-  - Enemy
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -49,7 +46,4 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 147689263
-    locked: 0
-  - name: Player
-    uniqueID: 72056953
     locked: 0
