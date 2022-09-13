@@ -43,5 +43,6 @@ public class PlayerAnimatorController : MonoBehaviour
         }
 
         _animator.SetBool(CharacterAnimatorKeys.IsDashing, _controller.IsDashing);
+
     }
 } 

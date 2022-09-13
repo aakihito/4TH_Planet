@@ -1,12 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+	public static PlayerController playerControl {get; private set;}
     [SerializeField] private PlayerData _data;
+	private InputHandler _handler;
 
     #region COMPONENTS
-    public Rigidbody2D _rb {get; private set;}
+    public Rigidbody2D _rb {get; private set; } 
+	public SpriteRenderer spriteR {get; private set; }
 
     #endregion
 
@@ -18,7 +22,9 @@ public class PlayerController : MonoBehaviour
     public bool IsAttacking {get; private set; }
     public bool IsSliding {get; private set; }
     public bool IsCrouching {get; private set; }
-	public  bool IsGrounded {get; private set;}
+	public  bool IsGrounded {get; private set; }
+	public bool IsDamaged {get; private set; }
+	public bool IsDead {get; private set; }
 
     private float LastOnGroundTime;
     private float LastOnWallTime;
@@ -85,7 +91,19 @@ public class PlayerController : MonoBehaviour
 
     private void Awake() 
     {
-        _rb = GetComponent<Rigidbody2D>();    
+        _rb = GetComponent<Rigidbody2D>();   
+		spriteR = GetComponent<SpriteRenderer>(); 
+		_handler = InputHandler.instance;
+
+		if(playerControl == null)
+		{
+			playerControl = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);
     }
 
     private void Start() 
@@ -493,10 +511,49 @@ private IEnumerator RefillDash(int amount)
         if(collision.gameObject.CompareTag("Cristal"))
         {
 			_dashesLeft = 1;
-			LastOnGroundTime = 1;
+			LastOnGroundTime = 0;
 		
 			Destroy(collision.gameObject);
 
 		}   
     }*/
+
+	public IEnumerator DamagePlayer()
+	{
+		 IsDamaged = true;
+		 spriteR.color = new Color(1f, 0, 0, 1f);
+		 yield return new WaitForSeconds(0.2f);
+		 spriteR.color = new Color(1f, 1f, 1f, 1f);
+		 IsDamaged = false; 
+
+		 for(int i = 0; i < 7; i++)
+		 {
+			spriteR.enabled = false;
+			yield return new WaitForSeconds(0.15f);
+			spriteR.enabled = true;
+			yield return new WaitForSeconds(0.15f);
+		 }
+
+		 PlayerLifeController.boxCol.enabled = true;
+	}
+
+	public void PlayerDeath()
+	{
+		IsDead = true;
+		_rb.bodyType = RigidbodyType2D.Static;
+		PlayerLifeController.boxCol.enabled = false;
+		//Reseted();
+
+	}
+	
+	/*private void Reseted()
+	{
+		StartCoroutine(ResetScene());
+	}
+	private IEnumerator ResetScene()
+	{
+		yield return new WaitForSeconds(3f);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+	*/
 }
