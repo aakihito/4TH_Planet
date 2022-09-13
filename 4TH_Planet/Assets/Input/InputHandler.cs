@@ -6,10 +6,9 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-	
 	public static InputHandler instance;
 
-	private GameControls controls;
+	public GameControls controls {get; private set;}
 
 	[Header("Input Values")]
 	public Action<InputArgs> OnJumpPressed;
@@ -64,12 +63,12 @@ public class InputHandler : MonoBehaviour
 	#endregion
 
 	#region OnEnable/OnDisable
-	private void OnEnable()
+	public void OnEnable()
 	{
 		controls.Enable();
 	}
 
-	private void OnDisable()
+	public void OnDisable()
 	{
 		controls.Disable();
 	}
