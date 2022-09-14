@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class PlayerLifeController : MonoBehaviour
     {
         _hudManager = HudController.hudController;
         _playerMove = PlayerController.playerControl;
-
+        
         boxCol = GetComponent<BoxCollider2D>();
     }
 
@@ -35,6 +36,11 @@ public class PlayerLifeController : MonoBehaviour
            {
                 StartCoroutine(_playerMove.DamagePlayer());
            }
+        }
+         else if(collision.tag == "FallDetector")
+         {
+            _hudManager.LoseAllLife();
+            boxCol.enabled = false;
         }
     }
 }

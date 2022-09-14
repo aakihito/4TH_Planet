@@ -12,6 +12,8 @@ public static class CharacterAnimatorKeys
 }
 public class PlayerAnimatorController : MonoBehaviour
 {
+    public static PlayerAnimatorController PlayerAnim {get; private set;}
+
    Animator _animator;
    PlayerController _controller;
    
@@ -20,6 +22,16 @@ public class PlayerAnimatorController : MonoBehaviour
    {
         _animator = GetComponent<Animator>();
         _controller = GetComponent<PlayerController>();
+
+        if (PlayerAnim == null)
+        {
+            PlayerAnim = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
    }
    
    private void Update() 

@@ -7,6 +7,7 @@ TagManager:
   - Cristal
   - Dangerous
   - Enemy
+  - FallDetector
   layers:
   - Default
   - TransparentFX
@@ -52,4 +53,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 72056953
+    locked: 0
+  - name: Pause
+    uniqueID: 4218229203
     locked: 0

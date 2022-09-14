@@ -19,7 +19,7 @@ public class HudController : MonoBehaviour
     public Sprite[] heartsInHud = new Sprite[7];
 
     #endregion
-
+    
     private PlayerController _playerControl;
 
     private void Awake()

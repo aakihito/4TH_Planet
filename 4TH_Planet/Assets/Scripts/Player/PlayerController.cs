@@ -1,12 +1,20 @@
+using System.Collections.Generic;
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
 	public static PlayerController playerControl {get; private set;}
     [SerializeField] private PlayerData _data;
 	private InputHandler _handler;
+	private PlayerAnimatorController _PlayerAnim;
+	private HudController _hudManager;
+
+	#region PREFAB
+	[SerializeField] private GameObject _prefab;
+	
+	#endregion
 
     #region COMPONENTS
     public Rigidbody2D _rb {get; private set; } 
@@ -89,10 +97,20 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+	 #region SPAWNS and Fall 
+	
+	[Header("Spawns")]
+
+	private Vector3 _respawnPoint;
+	[SerializeField] private GameObject _fallDetect;
+
+	#endregion
+
     private void Awake() 
     {
         _rb = GetComponent<Rigidbody2D>();   
-		spriteR = GetComponent<SpriteRenderer>(); 
+		spriteR = GetComponent<SpriteRenderer>();
+
 		_handler = InputHandler.instance;
 
 		if(playerControl == null)
@@ -108,6 +126,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start() 
     {
+		 _hudManager = HudController.hudController;
+
         InputHandler.instance.OnJumpPressed += args => OnJump(args);
         InputHandler.instance.OnJumpReleased += args => OnJumpUp(args);
         InputHandler.instance.OnCrouch += args => OnCrouch(args);
@@ -117,10 +137,15 @@ public class PlayerController : MonoBehaviour
 
         SetGravityScale(_data.gravityScale);
         IsFacingRight = true;
+		_PlayerAnim = PlayerAnimatorController.PlayerAnim;
+		_respawnPoint = transform.position;
     }
 
     private void Update() 
     {
+		#region FALL CHECK
+		_fallDetect.transform.position = new Vector2(transform.position.x, _fallDetect.transform.position.y);
+		#endregion
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
         LastOnWallRightTime -= Time.deltaTime;
@@ -511,7 +536,7 @@ private IEnumerator RefillDash(int amount)
 	}
 	#endregion
 
-	/*	 private void OnCollisionEnter2D(Collision2D collision) 
+	private void OnTriggerEnter2D(Collider2D collision) 
     {
         if(collision.gameObject.CompareTag("Cristal"))
         {
@@ -519,9 +544,8 @@ private IEnumerator RefillDash(int amount)
 			LastOnGroundTime = 0;
 		
 			Destroy(collision.gameObject);
-
 		}   
-    }*/
+    }
 
 	public IEnumerator DamagePlayer()
 	{
@@ -531,7 +555,7 @@ private IEnumerator RefillDash(int amount)
 		 spriteR.color = new Color(1f, 1f, 1f, 1f);
 		 IsDamaged = false; 
 
-		 for(int i = 0; i < 7; i++)
+		 for(int i = 0; i < 4; i++)
 		 {
 			spriteR.enabled = false;
 			yield return new WaitForSeconds(0.15f);
@@ -547,18 +571,18 @@ private IEnumerator RefillDash(int amount)
 		IsDead = true;
 		_rb.bodyType = RigidbodyType2D.Static;
 		PlayerLifeController.boxCol.enabled = false;
-		//Reseted();
+		Reseted();
+		Instantiate(_prefab, _respawnPoint, Quaternion.identity);
+		_hudManager.life = 6;
+		Destroy(gameObject);
 
 	}
-	
-	/*private void Reseted()
+	private void Reseted()
 	{
 		StartCoroutine(ResetScene());
 	}
 	private IEnumerator ResetScene()
 	{
-		yield return new WaitForSeconds(3f);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		yield return new WaitForSeconds(2f);
 	}
-	*/
 }
