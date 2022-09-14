@@ -3180,6 +3180,10 @@ PrefabInstance:
       propertyPath: _fallDetect
       value: 
       objectReference: {fileID: 1248610706}
+    - target: {fileID: 909188143464148285, guid: e9599b6665f921946af76750aa34974d, type: 3}
+      propertyPath: _playerObject
+      value: 
+      objectReference: {fileID: 8047789889778173224}
     - target: {fileID: 4876573035719593348, guid: e9599b6665f921946af76750aa34974d, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3230,3 +3234,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9599b6665f921946af76750aa34974d, type: 3}
+--- !u!1 &8047789889778173224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4876573035719593348, guid: e9599b6665f921946af76750aa34974d, type: 3}
+  m_PrefabInstance: {fileID: 8047789889778173223}
+  m_PrefabAsset: {fileID: 0}

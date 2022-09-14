@@ -573,7 +573,6 @@ private IEnumerator RefillDash(int amount)
 		PlayerLifeController.boxCol.enabled = false;
 		Reseted();
 		Instantiate(_prefab, _respawnPoint, Quaternion.identity);
-		_hudManager.life = 6;
 		Destroy(gameObject);
 
 	}
