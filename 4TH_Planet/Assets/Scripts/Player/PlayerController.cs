@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	#region  OTHER SCRIPTS
 	public static PlayerController playerControl {get; private set;}
     [SerializeField] private PlayerData _data;
 	private InputHandler _handler;
 	private PlayerAnimatorController _PlayerAnim;
 	private HudController _hudManager;
+	#endregion
 
 	#region PREFAB
 	[SerializeField] private GameObject _prefab;
 	
 	#endregion
 
-    #region COMPONENTS
+	#region COMPONENTS
     public Rigidbody2D _rb {get; private set; } 
 	public SpriteRenderer spriteR {get; private set; }
 
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public bool IsDashing {get; private set; }
     public bool IsAttacking {get; private set; }
     public bool IsSliding {get; private set; }
-    public bool IsCrouching {get; private set; }
+    public bool IsCrouching;
 	public  bool IsGrounded {get; private set; }
 	public bool IsDamaged {get; private set; }
 	public bool IsDead {get; private set; }
@@ -42,10 +44,10 @@ public class PlayerController : MonoBehaviour
 
     #region  INPUT PARAMETERS
 
-    private float LastPressedJumpTime;
-    private float LastPressedDashTime;
-    private float LastPressedAttackTime;
+    public float LastPressedJumpTime;
+    public float LastPressedDashTime;
     private float LastPressedCrouchTime;
+	public float PressedAttackTime;
 
     #endregion
 
@@ -72,6 +74,14 @@ public class PlayerController : MonoBehaviour
     [Header("Crouch")]
 
     [SerializeField] private BoxCollider2D _collider;
+
+	#region ATTACK
+
+	[Header("Attack")]
+	[SerializeField] private BoxCollider2D _attackCol;
+
+	#endregion
+    
 
     #region CHECKS
 
@@ -130,8 +140,9 @@ public class PlayerController : MonoBehaviour
 
         InputHandler.instance.OnJumpPressed += args => OnJump(args);
         InputHandler.instance.OnJumpReleased += args => OnJumpUp(args);
-        InputHandler.instance.OnCrouch += args => OnCrouch(args);
+		InputHandler.instance.OnCrouch += args => OnCrouch(args);
         InputHandler.instance.OnStandUp += args => OnStandUp(args);
+		InputHandler.instance.OnCrawling += args => OnCrawling(args);
         InputHandler.instance.OnDash += args => OnDash(args);
         InputHandler.instance.OnAttack += args => OnAttack(args);
 
@@ -154,7 +165,7 @@ public class PlayerController : MonoBehaviour
         //LastPressedJumpTime -= Time.deltaTime;
         LastPressedDashTime -= Time.deltaTime;
         LastPressedCrouchTime -= Time.deltaTime;
-        LastPressedAttackTime -= Time.deltaTime;
+		PressedAttackTime -= Time.deltaTime;
 
       if (InputHandler.instance.MoveInput.x != 0)
 			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);		
@@ -223,6 +234,10 @@ public class PlayerController : MonoBehaviour
 
 			StartCoroutine(nameof(StartDash), _lastDashDir);
 		}
+		if(CanAttack() && PressedAttackTime > 1)
+		{
+			Attack();
+		}
 
 		if (CanSlide() && ((LastOnWallLeftTime > 0 && InputHandler.instance.MoveInput.x < 0) || (LastOnWallRightTime > 0 && InputHandler.instance.MoveInput.x > 0)))
 			IsSliding = true;		
@@ -230,27 +245,24 @@ public class PlayerController : MonoBehaviour
 			IsSliding = false;
 
 			
-		if(CanCrouch())
+		if(CanCrouch() && LastOnGroundTime > 0)
 		{
 			Crouch();
-			IsDashing = false;
-			IsJumping = false;
-			IsSliding = false;
 		}
-		else if((Physics2D.OverlapBox(_roofCheckPoint.position, _roofCheckSize, 0, _groundLayer)))
+		
+		if((Physics2D.OverlapBox(_roofCheckPoint.position, _roofCheckSize, 0, _groundLayer)))
 		{
 			IsCrouching = true;	
 		}
-		else
+		else if(!IsCrouching)
 		{
-			IsCrouching = false;
 			_collider.size = new Vector2(_collider.size.x, 0.74f);
 			_collider.offset = new Vector2(_collider.offset.x, 0f);
 			
 			PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.74f);
 			PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, 0f);
 		}
-}
+	}
 
 	private void FixedUpdate()
 	{
@@ -288,17 +300,20 @@ public class PlayerController : MonoBehaviour
 	public void OnCrouch(InputHandler.InputArgs args)
 	{
 		IsCrouching = true;
-
 	}
-	public void OnAttack(InputHandler.InputArgs args)
+	public void OnCrawling(InputHandler.InputArgs args)
 	{
-
+		IsCrouching = true;
 	}
-
 	public void OnStandUp(InputHandler.InputArgs args)
 	{
 		IsCrouching = false;
 	}
+	public void OnAttack(InputHandler.InputArgs args)
+	{
+		PressedAttackTime = _data.attackCooldown;
+	}
+
 
     #endregion
 
@@ -344,6 +359,10 @@ public class PlayerController : MonoBehaviour
 		{
 			targetSpeed = InputHandler.instance.MoveInput.x * _data.crouchMaxSpeed;
 
+		}
+		else if(IsAttacking)
+		{
+			targetSpeed = InputHandler.instance.MoveInput.x * 0;
 		}
 
 		#endregion
@@ -401,6 +420,24 @@ public class PlayerController : MonoBehaviour
 			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);
 	}
 
+	private void Attack()
+	{
+		PressedAttackTime = 0;
+		PlayerLifeController.boxCol.enabled = false;
+		_attackCol.enabled = true;
+		AttackCoroutine();
+		IsAttacking = false;
+	}
+	private void AttackCoroutine()
+	{
+		StartCoroutine(AttackDuration());
+	}
+	private IEnumerator AttackDuration()
+	{
+		yield return new WaitForSeconds(0.2f);
+		_attackCol.enabled = false;
+	}
+	
 	private void Turn()
 	{
 		Vector3 scale = transform.localScale;
@@ -414,14 +451,10 @@ public class PlayerController : MonoBehaviour
 	{
 		LastOnGroundTime = 0;
 		IsGrounded = true;
-
-		if(IsCrouching)
-		{
-			_collider.size = new Vector2(_collider.size.x, 0.26f);
-			_collider.offset = new Vector2(_collider.offset.x, -0.26f);
-			PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.26f);
-			PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, -0.26f);
-		}
+		_collider.size = new Vector2(_collider.size.x, 0.26f);
+		_collider.offset = new Vector2(_collider.offset.x, -0.26f);
+		PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.26f);
+		PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, -0.26f);
 	}
 
 	private void Jump()
@@ -515,15 +548,17 @@ private IEnumerator RefillDash(int amount)
     {
 		return LastOnGroundTime > 0 && !IsJumping;
     }
-
+	private bool CanAttack()
+	{
+		return LastOnGroundTime > 0 && !IsAttacking;
+	}
 	private bool CanJumpCut()
     {
 		return IsJumping && _rb.velocity.y > 0;
     }
-
 	private bool CanCrouch()
 	{
-		return LastOnGroundTime > 0 && IsCrouching;
+		return IsCrouching;
 	}
 	private bool CanDash()
 	{
@@ -533,7 +568,7 @@ private IEnumerator RefillDash(int amount)
 		}
 
 		return _dashesLeft > 0;
-	}
+	} 
 	#endregion
 
 	private void OnTriggerEnter2D(Collider2D collision) 

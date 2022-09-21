@@ -18,6 +18,7 @@ MonoBehaviour:
   dragAmount: 0.22
   frictionAmount: 0.22
   coyoteTime: 0.16
+  attackCooldown: 1.3
   runMaxSpeed: 7
   runAccel: 11
   runDeccel: 14
@@ -32,7 +33,7 @@ MonoBehaviour:
   jumpBufferTime: 0.013
   slideSpeed: 2
   slideAccel: 2
-  slidePower: 2
+  slidePower: 2.2
   dashAmount: 1
   dashSpeed: 25
   dashAttackTime: 0.15

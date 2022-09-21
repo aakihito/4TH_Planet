@@ -35,25 +35,17 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""JumpUp"",
-                    ""type"": ""Button"",
-                    ""id"": ""dbd3a2b3-276a-49ea-adb9-101d4dc5b5b4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
-                },
-                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""701fa58b-dd12-4a9e-bbf1-76682825b9ee"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": ""Hold""
                 },
                 {
-                    ""name"": ""CrouchUp"",
+                    ""name"": ""JumpUp"",
                     ""type"": ""Button"",
-                    ""id"": ""f70bcc29-98c8-48d7-9986-6a71f504a06f"",
+                    ""id"": ""dbd3a2b3-276a-49ea-adb9-101d4dc5b5b4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)""
@@ -144,34 +136,12 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6cbc19e5-f4d0-443a-b472-439513093256"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""JumpUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""10409b46-7853-449d-b1ef-b034942a3b8b"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1aa1f753-dbb8-4772-bbca-8eb0aa2a996d"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CrouchUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -189,11 +159,22 @@ public class @GameControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""635b75a1-86b0-4946-a7bd-ef3cf59b8805"",
-                    ""path"": ""<Keyboard>/l"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cbc19e5-f4d0-443a-b472-439513093256"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JumpUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -206,9 +187,8 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_JumpUp = m_Player.FindAction("JumpUp", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
-        m_Player_CrouchUp = m_Player.FindAction("CrouchUp", throwIfNotFound: true);
+        m_Player_JumpUp = m_Player.FindAction("JumpUp", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
@@ -262,9 +242,8 @@ public class @GameControls : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Walk;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_JumpUp;
     private readonly InputAction m_Player_Crouch;
-    private readonly InputAction m_Player_CrouchUp;
+    private readonly InputAction m_Player_JumpUp;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Attack;
     public struct PlayerActions
@@ -273,9 +252,8 @@ public class @GameControls : IInputActionCollection, IDisposable
         public PlayerActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_Player_Walk;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @JumpUp => m_Wrapper.m_Player_JumpUp;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
-        public InputAction @CrouchUp => m_Wrapper.m_Player_CrouchUp;
+        public InputAction @JumpUp => m_Wrapper.m_Player_JumpUp;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -293,15 +271,12 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @JumpUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
-                @JumpUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
-                @JumpUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
                 @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @CrouchUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
-                @CrouchUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
-                @CrouchUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchUp;
+                @JumpUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
+                @JumpUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
+                @JumpUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJumpUp;
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
@@ -318,15 +293,12 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @JumpUp.started += instance.OnJumpUp;
-                @JumpUp.performed += instance.OnJumpUp;
-                @JumpUp.canceled += instance.OnJumpUp;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
-                @CrouchUp.started += instance.OnCrouchUp;
-                @CrouchUp.performed += instance.OnCrouchUp;
-                @CrouchUp.canceled += instance.OnCrouchUp;
+                @JumpUp.started += instance.OnJumpUp;
+                @JumpUp.performed += instance.OnJumpUp;
+                @JumpUp.canceled += instance.OnJumpUp;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
@@ -341,9 +313,8 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnJumpUp(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
-        void OnCrouchUp(InputAction.CallbackContext context);
+        void OnJumpUp(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
     }

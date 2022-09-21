@@ -16,6 +16,7 @@ public class InputHandler : MonoBehaviour
 	public Action<InputArgs> OnDash;
 	public Action<InputArgs> OnCrouch;
 	public Action<InputArgs> OnStandUp;
+	public Action<InputArgs> OnCrawling;
 	public Action<InputArgs> OnAttack;
 	
 
@@ -46,8 +47,9 @@ public class InputHandler : MonoBehaviour
 		controls.Player.Jump.performed += ctx => OnJumpPressed(new InputArgs { context = ctx });
 		controls.Player.JumpUp.performed += ctx => OnJumpReleased(new InputArgs { context = ctx });
 		controls.Player.Dash.performed += ctx => OnDash(new InputArgs { context = ctx });
-		controls.Player.Crouch.performed += ctx => OnCrouch(new InputArgs { context = ctx });
-		controls.Player.CrouchUp.performed += ctx => OnStandUp(new InputArgs { context = ctx });
+		controls.Player.Crouch.started += ctx => OnCrouch(new InputArgs { context = ctx });
+		controls.Player.Crouch.performed += ctx => OnCrawling(new InputArgs { context = ctx });
+		controls.Player.Crouch.canceled += ctx => OnStandUp(new InputArgs { context = ctx });
 		controls.Player.Attack.performed += ctx => OnAttack(new InputArgs { context = ctx });
 
 		#endregion

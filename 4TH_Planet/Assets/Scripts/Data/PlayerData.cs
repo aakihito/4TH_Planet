@@ -22,6 +22,9 @@ public class PlayerData : ScriptableObject
 	[Header("Other Physics")]
 	[Range(0, 0.5f)] public float coyoteTime; 
 
+	[Header("Attack")]
+	[Range(0, 2f)] public float attackCooldown; 
+
 	//GROUND
 	[Header("Run")]
 	public float runMaxSpeed;
@@ -53,7 +56,7 @@ public class PlayerData : ScriptableObject
 
 	public float slideSpeed;
 	public float slideAccel;
-	[Range(.5f, 2f)] public float slidePower;
+	[Range(.5f, 4f)] public float slidePower;
 
 
 	//Habilidades

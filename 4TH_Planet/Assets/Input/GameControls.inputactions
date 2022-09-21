@@ -22,25 +22,17 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "JumpUp",
-                    "type": "Button",
-                    "id": "dbd3a2b3-276a-49ea-adb9-101d4dc5b5b4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=1)"
-                },
-                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "701fa58b-dd12-4a9e-bbf1-76682825b9ee",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Hold"
                 },
                 {
-                    "name": "CrouchUp",
+                    "name": "JumpUp",
                     "type": "Button",
-                    "id": "f70bcc29-98c8-48d7-9986-6a71f504a06f",
+                    "id": "dbd3a2b3-276a-49ea-adb9-101d4dc5b5b4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)"
@@ -131,34 +123,12 @@
                 },
                 {
                     "name": "",
-                    "id": "6cbc19e5-f4d0-443a-b472-439513093256",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "JumpUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "10409b46-7853-449d-b1ef-b034942a3b8b",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1aa1f753-dbb8-4772-bbca-8eb0aa2a996d",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CrouchUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -176,11 +146,22 @@
                 {
                     "name": "",
                     "id": "635b75a1-86b0-4946-a7bd-ef3cf59b8805",
-                    "path": "<Keyboard>/l",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cbc19e5-f4d0-443a-b472-439513093256",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
