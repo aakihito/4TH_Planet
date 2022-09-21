@@ -606,12 +606,11 @@ private IEnumerator RefillDash(int amount)
 		IsDead = true;
 		_rb.bodyType = RigidbodyType2D.Static;
 		PlayerLifeController.boxCol.enabled = false;
-		Reseted();
 		Instantiate(_prefab, _respawnPoint, Quaternion.identity);
 		Destroy(gameObject);
 
 	}
-	private void Reseted()
+	/*private void Reseted()
 	{
 		StartCoroutine(ResetScene());
 	}
@@ -619,4 +618,5 @@ private IEnumerator RefillDash(int amount)
 	{
 		yield return new WaitForSeconds(2f);
 	}
+	*/
 }

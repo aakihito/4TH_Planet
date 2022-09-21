@@ -13,7 +13,7 @@ public class HudController : MonoBehaviour
     public Image faceCharacter;
     public Image hearts;
     public GameObject faceDamage;
-    public Sprite[] sprites = new Sprite[3];
+    public Sprite[] sprites = new Sprite[6];
 
     public int life = 6;
     public Sprite[] heartsInHud = new Sprite[7];
@@ -73,35 +73,38 @@ public class HudController : MonoBehaviour
         {
             case 6:
                 Damage();
-                faceCharacter.sprite = sprites[3];
+                faceCharacter.sprite = sprites[6];
                 hearts.sprite = heartsInHud[6];
             break;
 
             case 5:
                 Damage();
+                faceCharacter.sprite = sprites[5];
                 hearts.sprite = heartsInHud[5];
             break;
 
             case 4:
                 Damage();
-                faceCharacter.sprite = sprites[2];
+                faceCharacter.sprite = sprites[4];
                 hearts.sprite = heartsInHud[4];
             break;
 
             case 3:
                 Damage();
+                faceCharacter.sprite = sprites[3];
                 hearts.sprite = heartsInHud[3];
             break;
             
             case 2:
                 Damage();
-                faceCharacter.sprite = sprites[1];
+                faceCharacter.sprite = sprites[2];
                 hearts.sprite = heartsInHud[2];
             break;
 
             case 1:
                 Damage();
                 hearts.sprite = heartsInHud[1];
+                faceCharacter.sprite = sprites[1];
             break;
 
             default:
