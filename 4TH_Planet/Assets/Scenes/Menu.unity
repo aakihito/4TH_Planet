@@ -301,8 +301,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22860986}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -208.4, y: -98.7, z: -9711.07}
-  m_LocalScale: {x: 3.48, y: 3.48, z: 125.164955}
+  m_LocalPosition: {x: -208.4, y: -97.5, z: -9711.07}
+  m_LocalScale: {x: 4.4196, y: 4.4196, z: 158.95949}
   m_Children: []
   m_Father: {fileID: 1503905960}
   m_RootOrder: 4
@@ -347,7 +347,7 @@ SpriteRenderer:
   m_SortingLayerID: 147689263
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d54fb8b2a27b94348bdf7dd4a1bbf3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26c4505cf095de143a674c4bca628f1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1730,7 +1730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &256337741
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2502,7 +2502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &327609231
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5790,8 +5790,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844303712}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 881, y: -413, z: -9711.071}
-  m_LocalScale: {x: 13.92, y: 13.92, z: 125.16496}
+  m_LocalPosition: {x: 872.1, y: -406.4, z: -9711.07}
+  m_LocalScale: {x: 17.5392, y: 17.5392, z: 157.70786}
   m_Children: []
   m_Father: {fileID: 1613810111}
   m_RootOrder: 11
@@ -5836,7 +5836,7 @@ SpriteRenderer:
   m_SortingLayerID: 147689263
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d54fb8b2a27b94348bdf7dd4a1bbf3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26c4505cf095de143a674c4bca628f1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9701,7 +9701,7 @@ GameObject:
   - component: {fileID: 1600546412}
   - component: {fileID: 1600546413}
   m_Layer: 0
-  m_Name: Coorporate_Logo (1)
+  m_Name: Coorporate_Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9715,8 +9715,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600546411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 879, y: -409, z: -9711.071}
-  m_LocalScale: {x: 13.92, y: 13.92, z: 125.16496}
+  m_LocalPosition: {x: 846, y: -407, z: -9711.071}
+  m_LocalScale: {x: 15, y: 14, z: 125.16496}
   m_Children: []
   m_Father: {fileID: 327609231}
   m_RootOrder: 6
@@ -9761,7 +9761,7 @@ SpriteRenderer:
   m_SortingLayerID: 147689263
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d54fb8b2a27b94348bdf7dd4a1bbf3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26c4505cf095de143a674c4bca628f1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
