@@ -9,12 +9,14 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] private int _firstLayout;
 
+    [SerializeField] private AudioSource _audioSourceButton;
+
 
     private void Start()
     {
         StartLayout();
 
-       
+       GameManager.Instance.AudioManager.PlayBackgroundMusic(0);
 
     }
 
@@ -33,6 +35,7 @@ public class MenuController : MonoBehaviour
     public void EnableLayout(int indexLayout)
     {
         _layouts[indexLayout].gameObject.SetActive(true);
+        GameManager.Instance.AudioManager.PlaySoundEffect(_audioSourceButton,1);
     }
 
     public void DisableLayout(int indexLayout)

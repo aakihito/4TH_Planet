@@ -383,7 +383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneLoadManager: {fileID: 1167808384}
-  _inputManager: {fileID: 0}
+  _inputManager: {fileID: 1022400122}
+  _audioManager: {fileID: 2027046717}
 --- !u!1 &2027046715
 GameObject:
   m_ObjectHideFlags: 0

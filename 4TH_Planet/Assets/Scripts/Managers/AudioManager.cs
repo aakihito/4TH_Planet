@@ -39,4 +39,19 @@ public class AudioManager : MonoBehaviour
             _isPlayingMusic = false;
         }
     }
+
+    private void PauseAndUnpauseBackgroundMusic()
+    {
+        if(_isPlayingMusic)
+        {
+            _audioSourceMusic.Pause();
+            _isPlayingMusic =false;
+        }
+        else
+        {
+            _audioSourceMusic.UnPause();
+            _isPlayingMusic = true;
+        }
+        
+    }
 }
