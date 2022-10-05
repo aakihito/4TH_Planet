@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]    
     [SerializeField] private SceneLoadManager _sceneLoadManager;
     [SerializeField] private InputHandler _inputManager;
+    [SerializeField] private AudioManager _audioManager;
     
     //Criando a referencia(a variavel pública e estática) global da classe
 
@@ -49,5 +50,6 @@ public class GameManager : MonoBehaviour
         SaveSystem.Load();
     }
 
+    public AudioManager AudioManager => _audioManager;
     public SceneLoadManager SceneLoadManager => _sceneLoadManager;
 }
