@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 	#region  OTHER SCRIPTS
@@ -11,11 +11,6 @@ public class PlayerController : MonoBehaviour
 	private InputHandler _handler;
 	private PlayerAnimatorController _PlayerAnim;
 	private HudController _hudManager;
-	#endregion
-
-	#region PREFAB
-	[SerializeField] private GameObject _prefab;
-	
 	#endregion
 
 	#region COMPONENTS
@@ -109,9 +104,10 @@ public class PlayerController : MonoBehaviour
 
 	 #region SPAWNS and Fall 
 	
-	[Header("Spawns")]
 
-	private Vector3 _respawnPoint;
+	public Vector3 _respawnPoint {get; private set;}
+
+	[Header("Spawns")]
 	[SerializeField] private GameObject _fallDetect;
 
 	#endregion
@@ -604,19 +600,22 @@ private IEnumerator RefillDash(int amount)
 	public void PlayerDeath()
 	{
 		IsDead = true;
-		_rb.bodyType = RigidbodyType2D.Static;
 		PlayerLifeController.boxCol.enabled = false;
-		Instantiate(_prefab, _respawnPoint, Quaternion.identity);
-		Destroy(gameObject);
+		DestroyImmediate(ResetPlayerPrefabInDeath._inputPrefab, true);
+		DestroyImmediate(ResetPlayerPrefabInDeath._prefab, true);
+		Reseted();
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		_hudManager.life = 6;
 
 	}
-	/*private void Reseted()
+	private void Reseted()
 	{
 		StartCoroutine(ResetScene());
 	}
 	private IEnumerator ResetScene()
 	{
 		yield return new WaitForSeconds(2f);
+		
 	}
-	*/
+	
 }
