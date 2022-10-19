@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class ResetPlayerPrefabInDeath : MonoBehaviour
 {
+
    #region PREFAB
     public static GameObject _prefab;
-    public static GameObject _inputPrefab;
-    private PlayerController _playerMovePrefab;
-	
+    private PlayerControllerTest _playerMovePrefab;
+    public  Transform _spawnPoint;
+
+    public static ResetPlayerPrefabInDeath resetPlayerPrefab;
 	#endregion
 
     private void Awake() 
     {
-        _prefab = GetComponent<GameObject>();
-        _inputPrefab = GetComponent<GameObject>();
-        _playerMovePrefab = PlayerController.playerControl;
-        _prefab = Resources.Load<GameObject>("Player");
-        _inputPrefab = Resources.Load<GameObject>("InputManager");
-		Instantiate(_prefab, Vector3.zero, Quaternion.identity);
-        Instantiate(_inputPrefab);
+        if(resetPlayerPrefab == null)
+		{
+			resetPlayerPrefab = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);   
+
+        Respawn();
+    }
+
+    public void Respawn()
+    {
+         _prefab = GetComponent<GameObject>();
+        _prefab = Resources.Load<GameObject>("Player 1");
+		Instantiate(_prefab, _spawnPoint.position, Quaternion.identity);
     }
 }

@@ -42,7 +42,7 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator StartDialogue()
     {
-        //laço para definir os personagens
+        //laço para definir os personagens e dialogos
         for(int i = 0; i < currentDialogue.dialogues.Length; i++)
         {
             ResetText?.Invoke();

@@ -6,7 +6,7 @@ public static class CharacterAnimatorKeys
 {
     public const string IsCrouching = "Iscrouching";
     public const string HorizontalSpeed = "HorizontalSpeed";
-    public const string VerticalSpeed = "VerticalSpeed";
+    public const string IsJumping = "IsJumping";
     public const string IsGrounded = "IsGrounded";
     public const string IsDashing = "IsDashing";
 }
@@ -15,13 +15,14 @@ public class PlayerAnimatorController : MonoBehaviour
     public static PlayerAnimatorController PlayerAnim {get; private set;}
 
    Animator _animator;
-   PlayerController _controller;
+   PlayerControllerTest _controller;
    
 
     private void Awake() 
    {
         _animator = GetComponent<Animator>();
-        _controller = GetComponent<PlayerController>();
+        _controller = PlayerControllerTest.instance;
+        
 
         if (PlayerAnim == null)
         {
@@ -36,24 +37,31 @@ public class PlayerAnimatorController : MonoBehaviour
    
    private void Update() 
    {
-        _animator.SetBool(CharacterAnimatorKeys.IsCrouching, _controller.IsCrouching); 
-
-        if(InputHandler.instance.MoveInput.x != 0)
+        if(_controller.MoveInput.x != 0)
         {
-        _animator.SetFloat(CharacterAnimatorKeys.HorizontalSpeed, InputHandler.instance.MoveInput.x / _controller.targetSpeed);
+
+            _animator.SetFloat(CharacterAnimatorKeys.HorizontalSpeed, _controller.MoveInput.x / _controller.targetSpeed);
         }
+
         else
         {
             _animator.SetFloat(CharacterAnimatorKeys.HorizontalSpeed, 0f);
         }
 
-        _animator.SetFloat(CharacterAnimatorKeys.VerticalSpeed, _controller._rb.velocity.y / _controller.force);
+        _animator.SetBool(CharacterAnimatorKeys.IsJumping , _controller.IsJumping);
 
         if(!_controller.IsDashing && !_controller.IsJumping && !_controller.IsCrouching && !_controller.IsSliding)
         {
-        _animator.SetBool(CharacterAnimatorKeys.IsGrounded, _controller.IsGrounded);
+            _animator.SetBool(CharacterAnimatorKeys.IsGrounded, _controller.IsGrounded);
         }
-
+        if(_controller.IsCrouching)
+        {
+            _animator.SetBool(CharacterAnimatorKeys.IsCrouching, true);
+        }
+        else
+        {
+            _animator.SetBool(CharacterAnimatorKeys.IsCrouching, false);
+        }
         _animator.SetBool(CharacterAnimatorKeys.IsDashing, _controller.IsDashing);
 
     }

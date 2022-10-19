@@ -3,12 +3,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class PlayerController : MonoBehaviour
+
+public class PlayerControllerTest : MonoBehaviour
 {
-	#region  OTHER SCRIPTS
-	public static PlayerController playerControl {get; private set;}
+     #region  OTHER SCRIPTS
+    public static PlayerControllerTest instance;
+    private GameControls _controls;
     [SerializeField] private PlayerData _data;
-	private InputHandler _handler;
+	private ResetPlayerPrefabInDeath _resetedPrefab;
 	private PlayerAnimatorController _PlayerAnim;
 	private HudController _hudManager;
 	#endregion
@@ -39,10 +41,10 @@ public class PlayerController : MonoBehaviour
 
     #region  INPUT PARAMETERS
 
-    public float LastPressedJumpTime;
-    public float LastPressedDashTime;
+    private float LastPressedJumpTime;
+    private float LastPressedDashTime;
     private float LastPressedCrouchTime;
-	public float PressedAttackTime;
+	private float PressedAttackTime;
 
     #endregion
 
@@ -57,12 +59,15 @@ public class PlayerController : MonoBehaviour
 
 	#region RUN
 
+    public Vector2 MoveInput { get; private set; }
 	public float targetSpeed {get; private set;}
+	public float force {get; private set;}
 
 	#endregion
 
 	#region  JUMP
-	public float force {get; private set;}
+	private bool _isJumpCut;
+	private bool _isJumpFalling;
 
 	#endregion
 
@@ -73,6 +78,7 @@ public class PlayerController : MonoBehaviour
 	#region ATTACK
 
 	[Header("Attack")]
+
 	[SerializeField] private BoxCollider2D _attackCol;
 
 	#endregion
@@ -112,39 +118,67 @@ public class PlayerController : MonoBehaviour
 
 	#endregion
 
-    private void Awake() 
-    {
+    private void Awake()
+	{
+        #region GET COMPONENTS
+
         _rb = GetComponent<Rigidbody2D>();   
 		spriteR = GetComponent<SpriteRenderer>();
 
-		_handler = InputHandler.instance;
+        #endregion
 
-		if(playerControl == null)
+		#region Singleton
+		if (instance == null)
 		{
-			playerControl = this;
+			instance = this;
+			DontDestroyOnLoad(gameObject);
 		}
 		else
 		{
 			Destroy(gameObject);
+			return;
 		}
-		DontDestroyOnLoad(gameObject);
-    }
+		#endregion
 
-    private void Start() 
+		_controls = new GameControls();
+
+		#region Assign Inputs
+
+		_controls.Player.Walk.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+		_controls.Player.Walk.canceled += ctx => MoveInput = Vector2.zero;
+
+		_controls.Player.Jump.performed += ctx => OnJumpPressed();
+		_controls.Player.JumpUp.performed += ctx => OnJumpReleased();
+		_controls.Player.Dash.performed += ctx => OnDash();
+		_controls.Player.Crouch.started += ctx =>OnCrouch();
+		_controls.Player.Crouch.performed += ctx => OnCrawling();
+		_controls.Player.Crouch.canceled += ctx => OnStandUp();
+		_controls.Player.Attack.performed += ctx => OnAttack();
+
+		#endregion
+	}
+
+    #region INPUT DISABLE/ENABLE
+
+    private void OnEnable()
+	{
+		_controls.Enable();
+	}
+
+	private void OnDisable()
+	{
+		_controls.Disable();
+	}
+
+    #endregion
+
+     private void Start() 
     {
-		 _hudManager = HudController.hudController;
-
-        InputHandler.instance.OnJumpPressed += args => OnJump(args);
-        InputHandler.instance.OnJumpReleased += args => OnJumpUp(args);
-		InputHandler.instance.OnCrouch += args => OnCrouch(args);
-        InputHandler.instance.OnStandUp += args => OnStandUp(args);
-		InputHandler.instance.OnCrawling += args => OnCrawling(args);
-        InputHandler.instance.OnDash += args => OnDash(args);
-        InputHandler.instance.OnAttack += args => OnAttack(args);
+         _resetedPrefab = ResetPlayerPrefabInDeath.resetPlayerPrefab;
 
         SetGravityScale(_data.gravityScale);
         IsFacingRight = true;
-		_PlayerAnim = PlayerAnimatorController.PlayerAnim;
+		//_PlayerAnim = PlayerAnimatorController.PlayerAnim;
 		_respawnPoint = transform.position;
     }
 
@@ -153,53 +187,56 @@ public class PlayerController : MonoBehaviour
 		#region FALL CHECK
 		_fallDetect.transform.position = new Vector2(transform.position.x, _fallDetect.transform.position.y);
 		#endregion
+
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
         LastOnWallRightTime -= Time.deltaTime;
         LastOnWallLeftTime -= Time.deltaTime;    
     
-        //LastPressedJumpTime -= Time.deltaTime;
+        LastPressedJumpTime -= Time.deltaTime;
         LastPressedDashTime -= Time.deltaTime;
         LastPressedCrouchTime -= Time.deltaTime;
 		PressedAttackTime -= Time.deltaTime;
 
-      if (InputHandler.instance.MoveInput.x != 0)
-			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);		
+      if (MoveInput.x != 0)
+			CheckDirectionToFace(MoveInput.x > 0);		
 
 		if (!IsDashing && !IsJumping && !IsCrouching)
 		{
 			//Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) 
+			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping)
+			{
+				IsGrounded = true;
 				LastOnGroundTime = _data.coyoteTime; 
+            }		
 
 			//Right Wall Check
-			if ((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight))
+			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
+				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
 				LastOnWallRightTime = _data.coyoteTime;
 
 			//Right Wall Check
-			if ((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight))
+			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
+				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
 				LastOnWallLeftTime = _data.coyoteTime;
 
-			
-			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
-		if (!IsDashing)
-		{
-			if (_rb.velocity.y >= 0)
-				SetGravityScale(_data.gravityScale);
-			else if (InputHandler.instance.MoveInput.y < 0)
-				SetGravityScale(_data.gravityScale * _data.quickFallGravityMult);
-			else
-				SetGravityScale(_data.gravityScale * _data.fallGravityMult);
-		}
+
+		#region JUMP CHECKS
 
 		if (IsJumping && _rb.velocity.y < 0)
 		{
 			IsJumping = false;
-			//Debug.Break();
+			_isJumpFalling = true;
+		}
+
+		if (LastOnGroundTime > 0 && !IsJumping)
+        {
+			_isJumpCut = false;
+
+			if(!IsJumping)
+				_isJumpFalling = false;
 		}
 
 		if (!IsDashing && !IsCrouching)
@@ -208,17 +245,20 @@ public class PlayerController : MonoBehaviour
 			if (CanJump() && LastPressedJumpTime > 0)
 			{
 				IsJumping = true;
+				_isJumpCut = false;
+				_isJumpFalling = false;
 				Jump();
 			}
 		}
+
+		#endregion
 
 		if (CanDash() && LastPressedDashTime > 0)
 		{
 
 			Sleep(_data.dashSleepTime); 
-			//If not direction pressed, dash forward
-			if (InputHandler.instance.MoveInput != Vector2.zero)
-				_lastDashDir = InputHandler.instance.MoveInput;
+			if (MoveInput != Vector2.zero)
+				_lastDashDir = MoveInput;
 			else
 				_lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
 
@@ -226,16 +266,17 @@ public class PlayerController : MonoBehaviour
 
 			IsDashing = true;
 			IsJumping = false;
-			IsCrouching= false;
+			IsCrouching = false;
+			_isJumpCut = false;
 
 			StartCoroutine(nameof(StartDash), _lastDashDir);
 		}
-		if(CanAttack() && PressedAttackTime > 1)
+		/*if(CanAttack() && PressedAttackTime > 1)
 		{
 			Attack();
-		}
+		}*/
 
-		if (CanSlide() && ((LastOnWallLeftTime > 0 && InputHandler.instance.MoveInput.x < 0) || (LastOnWallRightTime > 0 && InputHandler.instance.MoveInput.x > 0)))
+		if (CanSlide() && ((LastOnWallLeftTime > 0 && MoveInput.x < 0) || (LastOnWallRightTime > 0 && MoveInput.x > 0)))
 			IsSliding = true;		
 		else
 			IsSliding = false;
@@ -248,16 +289,56 @@ public class PlayerController : MonoBehaviour
 		
 		if((Physics2D.OverlapBox(_roofCheckPoint.position, _roofCheckSize, 0, _groundLayer)))
 		{
-			IsCrouching = true;	
+			if(CanCrouch() && LastOnGroundTime > 0)
+			{
+				Crouch();
+			}
 		}
 		else if(!IsCrouching)
 		{
-			_collider.size = new Vector2(_collider.size.x, 0.74f);
+			_collider.size = new Vector2(_collider.size.x,0.74f);
 			_collider.offset = new Vector2(_collider.offset.x, 0f);
 			
 			PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.74f);
 			PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, 0f);
 		}
+
+		#region GRAVITY
+		if (!_dashAttacking)
+		{
+			if (IsSliding)
+			{
+				SetGravityScale(0);
+			}
+			else if (_rb.velocity.y < 0 && MoveInput.y < 0)
+			{
+				SetGravityScale(_data.gravityScale * _data.fastFallGravityMult);
+				_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Max(_rb.velocity.y, -_data.maxFastFallSpeed));
+			}
+			else if (_isJumpCut)
+			{
+				SetGravityScale(_data.gravityScale * _data.jumpCutGravityMult);
+				_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Max(_rb.velocity.y, -_data.maxFallSpeed));
+			}
+			else if ((IsJumping || _isJumpFalling) && Mathf.Abs(_rb.velocity.y) < _data.jumpHangTimeThreshold)
+			{
+				SetGravityScale(_data.gravityScale * _data.jumpHangGravityMult);
+			}
+			else if (_rb.velocity.y < 0)
+			{
+				SetGravityScale(_data.gravityScale * _data.fallGravityMult);
+				_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Max(_rb.velocity.y, -_data.maxFallSpeed));
+			}
+			else
+			{
+				SetGravityScale(_data.gravityScale);
+			}
+		}
+		else
+		{
+			SetGravityScale(0);
+		}
+		#endregion
 	}
 
 	private void FixedUpdate()
@@ -265,6 +346,7 @@ public class PlayerController : MonoBehaviour
         if (!IsDashing)
 		{
 			Run(1);
+			
 		}
 		else if (_dashAttacking)
 		{
@@ -278,36 +360,42 @@ public class PlayerController : MonoBehaviour
 
     #region INPUT CALLBACKS
    
-    public void OnJump(InputHandler.InputArgs args)
+    public void OnJumpPressed()
 	{
+        Debug.Log("Tá funcionando o Pulo");
 		LastPressedJumpTime = _data.jumpBufferTime;
 	}
 
-	public void OnJumpUp(InputHandler.InputArgs args)
+	public void OnJumpReleased()
 	{
+        Debug.Log("Tá funcionando o pulo soltando");
 		if (CanJumpCut())
-			JumpCut();
+			_isJumpCut = true;
 	}
 
-	public void OnDash(InputHandler.InputArgs args)
+	public void OnDash()
 	{
+        Debug.Log("Tá funcionando o dash");
 		LastPressedDashTime = _data.dashBufferTime;
 	}
-	public void OnCrouch(InputHandler.InputArgs args)
+	public void OnCrouch()
 	{
+        Debug.Log("Tá funcionando o crouch");
 		IsCrouching = true;
 	}
-	public void OnCrawling(InputHandler.InputArgs args)
+	public void OnCrawling()
 	{
+        Debug.Log("Tá funcionando o engatinhar");
 		IsCrouching = true;
 	}
-	public void OnStandUp(InputHandler.InputArgs args)
+	public void OnStandUp()
 	{
+        Debug.Log("Tá funcionando o levantar");
 		IsCrouching = false;
 	}
-	public void OnAttack(InputHandler.InputArgs args)
+	public void OnAttack()
 	{
-		PressedAttackTime = _data.attackCooldown;
+		//PressedAttackTime = _data.attackCooldown;
 	}
 
 
@@ -319,10 +407,12 @@ public class PlayerController : MonoBehaviour
 	{
 		_rb.gravityScale = scale;
 	}
+
 	private void Sleep(float duration)
     {
 		StartCoroutine(nameof(PerformSleep), duration);
     }
+
 	private IEnumerator PerformSleep(float duration)
     {
 		Time.timeScale = 0;
@@ -330,96 +420,61 @@ public class PlayerController : MonoBehaviour
 		Time.timeScale = 1;
 	}
 
-	private void Drag(float amount)
-	{
-		Vector2 force = amount * _rb.velocity.normalized;
-		force.x = Mathf.Min(Mathf.Abs(_rb.velocity.x), Mathf.Abs(force.x)); 
-		force.y = Mathf.Min(Mathf.Abs(_rb.velocity.y), Mathf.Abs(force.y));
-		force.x *= Mathf.Sign(_rb.velocity.x); 
-		force.y *= Mathf.Sign(_rb.velocity.y);
-
-		_rb.AddForce(-force, ForceMode2D.Impulse); 
-	}
-
 	private void Run(float lerpAmount)
 	{
-		
-		targetSpeed = InputHandler.instance.MoveInput.x * _data.runMaxSpeed;
-		float speedDif = targetSpeed - _rb.velocity.x;
-
-		float accelRate;
-
-		#region CROUCH SPEED DIF
+		targetSpeed = MoveInput.x * _data.runMaxSpeed;
+		targetSpeed = Mathf.Lerp(_rb.velocity.x, targetSpeed, lerpAmount);
 
 		if(IsCrouching)
 		{
-			targetSpeed = InputHandler.instance.MoveInput.x * _data.crouchMaxSpeed;
+			targetSpeed = MoveInput.x * _data.crouchMaxSpeed;
 
 		}
 		else if(IsAttacking)
 		{
-			targetSpeed = InputHandler.instance.MoveInput.x * 0;
+			targetSpeed = MoveInput.x * 0;
 		}
 
-		#endregion
-		
-		#region Acceleration Rate
+		#region Calculate AccelRate
+		float accelRate;
 
 		if (LastOnGroundTime > 0)
-		{
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccel : _data.runDeccel;
-			IsGrounded = true;
-		}
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccelAmount : _data.runDeccelAmount;
 		else
-		{
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccel * _data.accelInAir : _data.runDeccel * _data.deccelInAir;
-			IsGrounded = false;	
-		}
-
-		if (((_rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (_rb.velocity.x < targetSpeed && targetSpeed < -0.01f)) && _data.doKeepRunMomentum)
-		{
-			accelRate = 0; 
-		}
-
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data.runAccelAmount * _data.accelInAir : _data.runDeccelAmount * _data.deccelInAir;
 		#endregion
 
+		#region Add Bonus Jump Apex Acceleration
 
-		if(_data.doKeepRunMomentum && Mathf.Abs(_rb.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(_rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if ((IsJumping || _isJumpFalling) && Mathf.Abs(_rb.velocity.y) < _data.jumpHangTimeThreshold)
 		{
-			accelRate = 0; 
-		}
-
-		#region Velocity Power
-		float velPower;
-		if (Mathf.Abs(targetSpeed) < 0.01f)
-		{
-			velPower = _data.stopPower;
-		}
-		else if (Mathf.Abs(_rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(_rb.velocity.x)))
-		{
-			velPower = _data.turnPower;
-		}
-		else
-		{
-			velPower = _data.accelPower;
+			accelRate *= _data.jumpHangAccelerationMult;
+			targetSpeed *= _data.jumpHangMaxSpeedMult;
 		}
 		#endregion
 
-		
-		float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-		movement = Mathf.Lerp(_rb.velocity.x, movement, lerpAmount);
+		#region Conserve Momentum
 
-		_rb.AddForce(movement * Vector2.right);
+		if(_data.doConserveMomentum && Mathf.Abs(_rb.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(_rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		{
+			accelRate = 0; 
+		}
+		#endregion
 
+		float speedDif = targetSpeed - _rb.velocity.x;
 
-		if (InputHandler.instance.MoveInput.x != 0)
-			CheckDirectionToFace(InputHandler.instance.MoveInput.x > 0);
+		float movement = speedDif * accelRate;
+
+		_rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+		if (MoveInput.x != 0)
+			CheckDirectionToFace(MoveInput.x > 0);
 	}
 
-	private void Attack()
+	/*private void Attack()
 	{
 		PressedAttackTime = 0;
-		PlayerLifeController.boxCol.enabled = false;
+		//PlayerLifeController.boxCol.enabled = false;
 		_attackCol.enabled = true;
 		AttackCoroutine();
 		IsAttacking = false;
@@ -432,7 +487,7 @@ public class PlayerController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.2f);
 		_attackCol.enabled = false;
-	}
+	}*/
 	
 	private void Turn()
 	{
@@ -447,10 +502,10 @@ public class PlayerController : MonoBehaviour
 	{
 		LastOnGroundTime = 0;
 		IsGrounded = true;
-		_collider.size = new Vector2(_collider.size.x, 0.26f);
-		_collider.offset = new Vector2(_collider.offset.x, -0.26f);
-		PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.26f);
-		PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x, -0.26f);
+		_collider.size = new Vector2(_collider.size.x,  0.09f);
+		_collider.offset = new Vector2(_collider.offset.x, -0.32f);
+		PlayerLifeController.boxCol.size = new Vector2(PlayerLifeController.boxCol.size.x, 0.09f);
+		PlayerLifeController.boxCol.offset = new Vector2(PlayerLifeController.boxCol.offset.x,-0.32f);
 	}
 
 	private void Jump()
@@ -460,6 +515,7 @@ public class PlayerController : MonoBehaviour
 		IsGrounded = false;
 
 		#region Perform Jump
+		
 		force = _data.jumpForce;
 		if (_rb.velocity.y < 0)
 			force -= _rb.velocity.y;
@@ -467,18 +523,14 @@ public class PlayerController : MonoBehaviour
 		_rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
 	}
-	private void JumpCut()
-	{
-		_rb.AddForce(Vector2.down * _rb.velocity.y * (1 - _data.jumpCutMultiplier), ForceMode2D.Impulse);
-	}
-
 	private void Slide()
 	{
-		float targetSpeed = 0;
-		float speedDif = targetSpeed - _rb.velocity.y;
+		float speedDif = _data.slideSpeed - _rb.velocity.y;	
+		float movement = speedDif * _data.slideAccel;
 
-		float movement = Mathf.Pow(Mathf.Abs(speedDif) * _data.slideAccel, _data.slidePower) * Mathf.Sign(speedDif);
-		_rb.AddForce(movement * Vector2.up, ForceMode2D.Force);
+		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
+		_rb.AddForce(movement * Vector2.up);
 	}
 
 	private IEnumerator StartDash(Vector2 dir)
@@ -534,7 +586,7 @@ private IEnumerator RefillDash(int amount)
 
 	private bool CanSlide()
 	{
-		if (LastOnWallTime > 0 && !IsJumping && !IsDashing && LastOnGroundTime <= 1)
+		if (LastOnWallTime > 0 && !IsJumping && !IsDashing && !IsCrouching && LastOnGroundTime <= 1)
 			return true;
 		else
 			return false;
@@ -601,11 +653,13 @@ private IEnumerator RefillDash(int amount)
 	{
 		IsDead = true;
 		PlayerLifeController.boxCol.enabled = false;
-		DestroyImmediate(ResetPlayerPrefabInDeath._inputPrefab, true);
-		DestroyImmediate(ResetPlayerPrefabInDeath._prefab, true);
+		Destroy(gameObject);
 		Reseted();
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		_resetedPrefab.Respawn();
 		_hudManager.life = 6;
+		PlayerLifeController.boxCol.enabled = true;
+
 
 	}
 	private void Reseted()
@@ -617,5 +671,5 @@ private IEnumerator RefillDash(int amount)
 		yield return new WaitForSeconds(2f);
 		
 	}
-	
 }
+

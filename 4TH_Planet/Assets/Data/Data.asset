@@ -12,36 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5948e0ed8e05314469ea1ea4cc526058, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  gravityScale: 1.6
-  fallGravityMult: 2.2
-  quickFallGravityMult: 1.35
-  dragAmount: 0.22
-  frictionAmount: 0.22
-  coyoteTime: 0.16
-  attackCooldown: 1.3
-  runMaxSpeed: 7
-  runAccel: 11
-  runDeccel: 14
+  gravityStrength: -77.77777
+  gravityScale: 2.5925925
+  fallGravityMult: 1.5
+  maxFallSpeed: 25
+  fastFallGravityMult: 2
+  maxFastFallSpeed: 30
+  crouchMaxSpeed: 2
+  runMaxSpeed: 11
+  runAcceleration: 2.5
+  runAccelAmount: 11.363636
+  runDecceleration: 5
+  runDeccelAmount: 22.727272
   accelInAir: 0.65
   deccelInAir: 0.65
-  accelPower: 1.1
-  stopPower: 1.3
-  turnPower: 1.15
-  crouchMaxSpeed: 2
-  jumpForce: 13
-  jumpCutMultiplier: 0.06
-  jumpBufferTime: 0.013
-  slideSpeed: 2
-  slideAccel: 2
-  slidePower: 2.2
+  doConserveMomentum: 1
+  jumpHeight: 3.5
+  jumpTimeToApex: 0.3
+  jumpForce: 23.333332
+  jumpCutGravityMult: 2
+  jumpHangGravityMult: 0.5
+  jumpHangTimeThreshold: 1
+  jumpHangAccelerationMult: 1.1
+  jumpHangMaxSpeedMult: 1.3
+  slideSpeed: 0
+  slideAccel: 0
+  slidePower: 0.5
+  coyoteTime: 0.1
+  jumpBufferTime: 0.1
   dashAmount: 1
-  dashSpeed: 25
+  dashSpeed: 20
+  dashSleepTime: 0.05
   dashAttackTime: 0.15
-  dashAttackDragAmount: 0.24
-  dashEndTime: 0.2
-  dashUpEndMult: 0.6
-  dashEndRunLerp: 0.3
-  dashBufferTime: 0.3
-  dashSleepTime: 0.1
+  dashEndTime: 0.15
+  dashEndSpeed: {x: 15, y: 15}
+  dashEndRunLerp: 0.5
   dashRefillTime: 0.1
-  doKeepRunMomentum: 1
+  dashBufferTime: 0.1

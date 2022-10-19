@@ -20,7 +20,7 @@ public class HudController : MonoBehaviour
 
     #endregion
     
-    private PlayerController _playerControl;
+    private PlayerControllerTest _playerControl;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class HudController : MonoBehaviour
     private void Start() 
     {
         faceCharacter = faceCharacter.GetComponent<Image>();   
-        _playerControl = PlayerController.playerControl; 
+        _playerControl = PlayerControllerTest.instance; 
         hearts = hearts.GetComponent<Image>();
     }
 

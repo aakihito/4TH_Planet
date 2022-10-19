@@ -6,14 +6,14 @@ using UnityEngine;
 public class PlayerLifeController : MonoBehaviour
 {
   HudController _hudManager;
-  PlayerController _playerMove;
+  PlayerControllerTest _playerMove;
 
   public static BoxCollider2D boxCol;
 
     private void Start()
     {
         _hudManager = HudController.hudController;
-        _playerMove = PlayerController.playerControl;
+        _playerMove = PlayerControllerTest.instance;
         
         boxCol = GetComponent<BoxCollider2D>();
     }
